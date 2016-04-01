@@ -1,0 +1,102 @@
+<?php
+namespace MB;
+
+require 'Autoloader.php';
+
+$autoload = new Autoloader();
+$autoload->register();
+$autoload->addNamespace( 'MB', 'C:\htdocs\Fridge' );
+Classes\Domain\Repository\FridgeRepository::initDB();
+$fringe = 'object';
+
+var_dump($_REQUEST);
+if ( isset( $_REQUEST['fridge'] ) ) {
+	$fringe = new \MB\Classes\Domain\Model\Fridge( $_REQUEST['fridge']);
+
+}
+
+?>
+
+<?php if ( isset( $_REQUEST['fridge'] ) ) { ?>
+	<script language="javascript" type="text/javascript" src="/Resources/Js/jquery-2.2.2.min.js"></script>
+	<form method="" action="">
+		<label for="temp">Temperatur</label>
+		<input type="hidden" name="fridge[temperature]"><br/>
+		<input id="temp" name="fridge[temperature]"><br/>
+		<label for="volume">Volume</label>
+		<input type="hidden" name="fridge[volume]" value="<?php echo $fringe->getVolume(); ?>" />
+		<input id="volume" disabled="disabled" name="fridge[volume]" value="<?php echo $fringe->getVolume(); ?>" ><br/>
+		<label for="energy">Energy</label>
+		<input id="energy" type="checkbox" name="fridge[energy]"><br/>
+		<label for="light">Licht</label>
+		<input id="light" type="checkbox" name="fridge[light]"><br/>
+		<label for="door">Tür</label>
+		<input id="door" name="fridge[door]"><br/>
+		<button id="addDrawer">Neue Schublade</button>
+		<div class="drawersBox">
+			<div class="drawer">
+				<label for="draw">Schublade Volumen</label>
+				<input id="draw" name="fridge[drawer][1][volumen]"><br/>
+			</div>
+		</div>
+
+		<button type="submit">button</button>
+		<button type="submit">Save</button>
+	</form>
+	<script type="text/javascript">
+
+		$(document).ready(function () {
+
+			$('#addDrawer').click(function (e) {
+				var counter;
+				e.preventDefault();
+				$("div.drawer")
+					.last()
+					.clone()
+					.appendTo($(".drawersBox"))
+					.find("input").attr("name", function (i, oldVal) {
+
+						return oldVal.replace(/\[(\d+)\]/, function (_, m) {
+
+							return "[" + (+m + 1) + "]";
+						})
+
+					})
+				;
+				return false;
+			});
+
+			$('form').submit(function(event) {
+				event.preventDefault();
+				var form = $(this);
+				var data = form.serialize();
+
+				$.ajax({
+					url : 'index.php',
+					type: 'POST',
+					data: data,
+					success:form
+				}).done(function(data){
+				alert(data);
+			}).fail(function() {
+				alert('Fehler')
+			})
+			})
+
+		});
+
+	</script>
+<?php } else { ?>
+	<form method="post" action="index.php">
+		<label for="volume">Volumen</label>
+		<input id="volume" name="fridge[volume]" type="text"/>
+		<button>Create Fridge</button>
+	</form>
+
+<?php }
+
+
+
+
+?>
+

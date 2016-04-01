@@ -1,0 +1,33 @@
+<form method="POST" action="">
+    <div id="Create" class="panel panel-default">
+        <div class="panel-heading"><label for="volume">Kühlschrank Volumen</label></div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <input class="form-control" id="volume" min="0" type="number" name="fridge[volume]">
+                <input class="btn btn-default" type="submit" id="Submit" value="Erstellen">
+            </div>
+        </div>
+    </div>
+    <div id="Fridge" class="panel panel-default">
+        <div class="panel-heading">Kühlschrank erstellen</div>
+        <div class="panel-body">
+            <div class="form-inline">
+                <input class="form-control" id="Temperature" min="3" max="7" type="number" value="3"
+                       name="fridge[temperature]">
+                <label for="Temperature">Temperatur</label>
+            </div>
+            <div class="form-inline">
+                <input  id="Energy" type="checkbox" name="fridge[energy]">
+                <label for="Energy">Energie vorhanden</label>
+            </div>
+            <div class="form-inline">
+                <input  id="stateDoor" type="checkbox" name="fridge[stateDoor]">
+                <label for="stateDoor">Tür</label>
+            </div>
+            <div class="form-inline">
+                <input  id="stateLight" type="checkbox" name="fridge[stateLight]">
+                <label for="stateLight">Licht</label>
+            </div>
+        </div>
+    </div>
+</form>
